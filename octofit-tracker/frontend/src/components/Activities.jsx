@@ -1,12 +1,17 @@
 import { useEffect, useState } from 'react';
-import { fetchCollection } from '../config/api';
+import { fetchJson } from '../config/api';
+
+const codespaceName = import.meta.env.VITE_CODESPACE_NAME;
+const activitiesApiUrl = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev/api/activities/`
+  : 'http://localhost:8000/api/activities/';
 
 function Activities() {
   const [activities, setActivities] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchCollection('activities')
+    fetchJson(activitiesApiUrl)
       .then(setActivities)
       .catch((err) => setError(err.message));
   }, []);

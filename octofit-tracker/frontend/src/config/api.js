@@ -6,12 +6,13 @@ export const apiBaseUrl = codespaceName
   ? `https://${codespaceName}-8000.app.github.dev/api`
   : 'http://localhost:8000/api';
 
-export async function fetchCollection(resource) {
-  const response = await fetch(`${apiBaseUrl}/${resource}/`);
+export async function fetchJson(url) {
+  const response = await fetch(url);
   if (!response.ok) {
-    throw new Error(`Request to ${resource} failed with status ${response.status}`);
+    throw new Error(`Request to ${url} failed with status ${response.status}`);
   }
   const data = await response.json();
   // Support both plain array responses and paginated { results: [...] } responses
   return Array.isArray(data) ? data : (data.results ?? []);
 }
+

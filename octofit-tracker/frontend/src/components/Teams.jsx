@@ -1,12 +1,17 @@
 import { useEffect, useState } from 'react';
-import { fetchCollection } from '../config/api';
+import { fetchJson } from '../config/api';
+
+const codespaceName = import.meta.env.VITE_CODESPACE_NAME;
+const teamsApiUrl = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev/api/teams/`
+  : 'http://localhost:8000/api/teams/';
 
 function Teams() {
   const [teams, setTeams] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchCollection('teams')
+    fetchJson(teamsApiUrl)
       .then(setTeams)
       .catch((err) => setError(err.message));
   }, []);
